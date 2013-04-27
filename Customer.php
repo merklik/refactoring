@@ -32,30 +32,38 @@ class Customer
 
     public function statement()
     {
-        $totalAmount = 0;
-        $frequentRenterPoints = 0;
-        $rentals = $this->_rentals;
-
         $result = "Rental Record for " . $this->getName() . "\n";
 
-        foreach ($rentals as $each) {
-            //determine amounts for each line
-            $totalAmount += $each->getCharge();
-
-            $frequentRenterPoints += $each->getFrequentRenterPoints();
-
+        foreach ($this->_rentals as $each) {
             //show figures for this rental
             $result .= "\t" . $each->getMovie()->getTitle() . "\t" . $each->getCharge() . "\n";
 
         }
         //add footer lines
-        $result .= "Amount owed is " . $totalAmount . "\n";
-        $result .= "You earned " . $frequentRenterPoints . " frequent renter points";
-
+        $result .= "Amount owed is " . $this->getTotalAmount() . "\n";
+        $result .= "You earned " . $this->getTotalFrequenterPoints() . " frequent renter points";
 
         return $result;
     }
 
+    private function getTotalAmount()
+    {
+        $totalAmount = 0;
+        foreach ($this->_rentals as $each) {
+            $totalAmount += $each->getCharge();
+        }
+        return $totalAmount;
+    }
+
+    private function getTotalFrequenterPoints()
+    {
+        $frequentRenterPoints = 0;
+        foreach ($this->_rentals as $each) {
+            $frequentRenterPoints += $each->getFrequentRenterPoints();
+
+        }
+        return $frequentRenterPoints;
+    }
 }
 
 
