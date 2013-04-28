@@ -92,7 +92,23 @@ class TestCustomer extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $s);
     }
 
+    /**
+     * @test
+     */
+    public function statment_ThreeRentalsManyDays()
+    {
+        // Arrange
+        $this->addRental("Rambo 1", \Refactoring\Movie::CHILDRENS, 4);
+        $this->addRental("Rambo 2", \Refactoring\Movie::NEW_RELEASE, 4);
+        $this->addRental("Rambo 3", \Refactoring\Movie::REGULAR, 4);
 
+        // Act
+        $s = $this->customer->statement();
+
+        //Assert
+        $expected = "Rental Record for Joe\n\tRambo 1	3\n\tRambo 2	12\n\tRambo 3	5\nAmount owed is 20\nYou earned 4 frequent renter points";
+        $this->assertEquals($expected, $s);
+    }
     /**
      * @test
      */
